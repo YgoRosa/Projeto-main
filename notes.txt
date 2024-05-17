@@ -1,0 +1,25 @@
+✦ Usar obrigatoriamente os seguintes conceitos no jogo:
+    Estruturas (structs);
+    Ponteiros;
+    Alocação dinâmica de memória;
+    Matriz ou lista encadeada ou alguma outra estrutura de dados mais complexa;
+    Escrita e leitura em arquivo (top scores, por ex.);
+
+✦ Deverão ser entregues os seguintes artefatos:
+    Código fonte disponível e acessível em repositório no github.
+    Makefile/script/linha de comando para compilação do projeto.
+    Slides de apresentação do projeto contendo:
+        -Apresentação do jogo
+        -Instruções de compilação e uso
+        -Detalhes de implementação (Lista e descrição das funções, highlights do código, dificuldades encontradas).
+
+✦ Componentes da CLI LIB
+    Screen - funções para manipulação da tela.
+    Keyboard - funções para manipulação do teclado.
+    Timer - funções de temporização.
+
+✧ As apresentações orais serão feitas nos dias 30/05, 04/06, 06/06 e 11/06 no horário da aula, com ordem definida no dia.
+Todos os alunos do grupo devem apresentar. A nota da apresentação oral é individual.
+
+✧ CADA COMPONENTE DO GRUPO É RESPONSÁVEL POR SUA PRÓPRIA ENTREGA, PORTANTO CADA PESSOA DO GRUPO DEVE SUBMETER SEUS
+ENTREGÁVEIS NO CLASSROOM. 
