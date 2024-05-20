@@ -72,24 +72,26 @@ void render() {
 }
 
 void inicializaJogo(EstadoJogo *jogo) {
-    SegmentoCobra *segmentoInicial = (SegmentoCobra *)malloc(sizeof(SegmentoCobra));
-    segmentoInicial->pos.x = LARGURA / 2;
-    segmentoInicial->pos.y = ALTURA / 2;
+    SegmentoCobra *segmentoInicial = (SegmentoCobra *)malloc(sizeof(SegmentoCobra)); 
+    //Converte o ponteiro retornado por malloc para o tipo SegmentoCobra *.
+
+    segmentoInicial->pos.x = LARGURA / 2; //define a coordenada x do segmento inicial no meio da largura do campo de jogo.
+    segmentoInicial->pos.y = ALTURA / 2; //define a coordenada y do segmento inicial no meio da altura do campo de jogo.
     segmentoInicial->proximo = NULL;
 
-    jogo->cobra.cabeca = segmentoInicial;
-    jogo->cobra.rabo = segmentoInicial;
-    jogo->cobra.comprimento = 1;
+    jogo->cobra.cabeca = segmentoInicial; //define a cabeça da cobra como o segmento inicial.
+    jogo->cobra.rabo = segmentoInicial; //define o rabo da cobra como o segmento inicial.
+    jogo->cobra.comprimento = 1; //define o comprimento da cobra como 1, já que há apenas um segmento.
 
-    srand(time(0));
-    jogo->comida.x = rand() % (LARGURA - 2) + 1;
-    jogo->comida.y = rand() % (ALTURA - 2) + 1;
+    srand(time(0)); //inicializa o gerador de número aleatório baseado no tempo atual.
+    jogo->comida.x = rand() % (LARGURA - 2) + 1; // o % pega o resto da divisão entre o rand e o valor de largura e resulta em um número entre eles que é a posição da comida.
+    jogo->comida.y = rand() % (ALTURA - 2) + 1; // o % pega o resto da divisão entre o rand e o valor de altura e resulta em um número entre eles que é a posição da comida.
+    //o +1 no final da equação evita que a posição da comida seja na borda do campo de jogo.
+    //srand e rand são usadas para gerar números aleatórios em C.
 
-    jogo->pontuacao = 0;
-    jogo->fimDeJogo = 0;
-} //essa funcao nao foi eu (kze) que fez, foi o chatgpt. ainda to vendo se vamos usar mesmo pq nao entendi legal nao
-
-//tem que ver legal, bora ver como funciona depois, e qualquer coisa a gente adapta essa e faz uma nossa, mas bora ir vendo - ygor
+    jogo->pontuacao = 0; //inicializa a pontuação do jogador como 0.
+    jogo->fimDeJogo = 0; //define que o jogo não terminou [0 significa que o jogo está em andamento(linha 29)].
+} //essa funcao nao foi eu (kze) que fez, foi o chatgpt. ainda to vendo se vamos usar mesmo pq nao entendi 100% nao
 
 
 int main(){
