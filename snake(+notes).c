@@ -93,6 +93,54 @@ void inicializaJogo(EstadoJogo *jogo) {
     jogo->fimDeJogo = 0; //define que o jogo não terminou [0 significa que o jogo está em andamento(linha 29)].
 } //essa funcao nao foi eu (kze) que fez, foi o chatgpt. ainda to vendo se vamos usar mesmo pq nao entendi 100% nao
 
+void entrada(int *dx, int *dy) { //os ponteiros indicam a direção da cobra
+    if (_kbhit()) { //verifica se o usuário clicou na tela (_kbhit)
+        switch (_getch()) { //lê a tecla pressionada e sem esperar pela tecla Enter, retorna o código da tecla pressionada.
+            case 'w': //se foi W ir pra frente (mexer apenas o Y que é a linha vertical)
+                *dx = 0;
+                *dy = -1;
+                break;
+            case 's': //se foi S ir pra trás (mexer apenas o Y que é a linha vertical)
+                *dx = 0;
+                *dy = 1;
+                break;
+            case 'a': //se foi A ir pra esquerda (mexer apenas o X que é a linha horizontal)
+                *dx = -1;
+                *dy = 0;
+                break;
+            case 'd': //se foi A ir pra esquerda (mexer apenas o X que é a linha horizontal)
+                *dx = 1;
+                *dy = 0;
+                break;
+        }   
+    }
+}   //_kbhit e _getch são funções da biblioteca <conio.h>
+
+void atualizaCobra(EstadoJogo *jogo, int dx, int dy) { //cria um novo segmento para a nova posição da cabeça
+    SegmentoCobra *novoSegmento = (SegmentoCobra *)malloc(sizeof(SegmentoCobra));
+    novoSegmento->pos.x = jogo->cobra.cabeca->pos.x + dx; //define a posição do novo segmento como a posição atual da cabeça da cobra
+    novoSegmento->pos.y = jogo->cobra.cabeca->pos.y + dy; //+ o deslocamento dx [para o eixo x(horizontal)] e dy [para o eixo y(vertical)].
+    novoSegmento->proximo = jogo->cobra.cabeca; //liga o novo segmento à cobra, apontando o campo proximo do novo segmento para o segmento da cabeça atual.
+
+    jogo->cobra.cabeca = novoSegmento; //atualiza a cabeça da cobra
+
+    if (novoSegmento->pos.x == jogo->comida.x && novoSegmento->pos.y == jogo->comida.y) { //verifica se a cobra comeu a comida
+        jogo->pontuacao++; //adiciona pontuação ao jogador
+        jogo->comida.x = rand() % (LARGURA - 2) + 1; //gera uma nova maçã na tela
+        jogo->comida.y = rand() % (ALTURA - 2) + 1; 
+        jogo->cobra.comprimento++; //aumenta a cobra
+    } else { //remove o último segmento da cobra se não comeu a comida
+        SegmentoCobra *temp = jogo->cobra.cabeca; //cria um ponteiro temp do tipo SegmentoCobra * e inicializa temp para apontar para a cabeça da cobra.
+        while (temp->proximo != jogo->cobra.rabo) {
+            temp = temp->proximo; //loop pra achar o penultimo segmento da cobra (já que o último é a cabeça)
+        }
+        free(jogo->cobra.rabo); //libera a memoria alocada pelo segmento do rabo atual da cobra
+        jogo->cobra.rabo = temp; //atualiza o ponteiro rabo para apontar para o penúltimo segmento, fazendo com que ele se torne o novo rabo da cobra.
+        jogo->cobra.rabo->proximo = NULL; //define o campo proximo do novo rabo para NULL, indicando que este é agora o último segmento da cobra.
+    }
+}
+
+//só falta funcao de verificar colisão eu acho
 
 int main(){
     int cobra[300][2]; //matriz do corpinho da cobra
