@@ -93,6 +93,21 @@ void inicializaJogo(EstadoJogo *jogo) {
     jogo->fimDeJogo = 0; //define que o jogo não terminou [0 significa que o jogo está em andamento(linha 29)].
 } //essa funcao nao foi eu (kze) que fez, foi o chatgpt. ainda to vendo se vamos usar mesmo pq nao entendi 100% nao
 
+
+void desenha(EstadoJogo *jogo) {
+    render(); //função que limpa a tela e desenha as bordas
+    SegmentoCobra *segmento = jogo->cobra.cabeca; //ponteiro segmento do tipo SegmentoCobra * e o inicializa para apontar para a cabeça da cobra
+
+    while (segmento != NULL) {
+        posicao(segmento->pos.x, segmento->pos.y); //chama a função posicao para posicionar o cursor do console na posição do segmento atual da cobra.
+        printf("O"); //desenha o segmento do cobra na tela.
+        segmento = segmento->proximo; //atualiza "segmento" para apontar para o próximo segmento da cobra.
+    }
+
+    maca(jogo->comida.x, jogo->comida.y); //chama a função "maca" com os parametros das coordenadas de comida
+    pontuacao(jogo->pontuacao); //chama a função "pontuacao" com a pontuação atual do jogo (jogo->pontuacao).
+}
+
 void entrada(int *dx, int *dy) { //os ponteiros indicam a direção da cobra
     if (_kbhit()) { //verifica se o usuário clicou na tela (_kbhit)
         switch (_getch()) { //lê a tecla pressionada e sem esperar pela tecla Enter, retorna o código da tecla pressionada.
@@ -140,7 +155,33 @@ void atualizaCobra(EstadoJogo *jogo, int dx, int dy) { //cria um novo segmento p
     }
 }
 
-//só falta funcao de verificar colisão eu acho
+int verificaColisao(EstadoJogo *jogo) { //recebe ponteiro para o struct EstadoJogo que contem o estado atual do jogo. 
+    SegmentoCobra *temp = jogo->cobra.cabeca->proximo; //declara um ponteiro do tipo SegmentoCobra e inicializa para apontar para o próximo segmento após a cabeça da cobra.
+    while (temp != NULL) { //loop enquanto temp não for NULL(o ultimo elemento)
+        if (jogo->cobra.cabeca->pos.x == temp->pos.x && jogo->cobra.cabeca->pos.y == temp->pos.y) { //verifica se a posição da cabeça da cobra é igual à posição de qualquer outro segmento da cobra.
+            return 1; //se sim, retorna 1, indicando uma colisão com o próprio corpo.
+        }
+        temp = temp->proximo;
+    }
+
+    
+    if (jogo->cobra.cabeca->pos.x <= 0 || jogo->cobra.cabeca->pos.x >= LARGURA - 1 ||
+        jogo->cobra.cabeca->pos.y <= 0 || jogo->cobra.cabeca->pos.y >= ALTURA - 1) { //verifica se a posição da cabeça da cobra está fora dos limites do campo de jogo.
+        return 1; //se sim, indica a colisão com as bordas
+    }
+
+    return 0; //nenhuma colisão
+}
+
+void endGame(EstadoJogo *jogo) { //função para quando o jogador perder e chegar ao fim do jogo.
+    system("cls"); //limpa o terminal
+    printf("Game Over!\n"); //exibe a mensagem de game over
+    printf("Pontuação final: %d\n", jogo->pontuacao); //exibe a pontuação do player
+}
+
+void espera(int milissegundos) { //pausa o jogo por um período de tempo para controlar a velocidade da cobra.
+    Sleep(milissegundos); //sleep é uma função da biblioteca <windows.h> que suspende a execução do programa por um tempo especificado.
+}
 
 int main(){
     int cobra[300][2]; //matriz do corpinho da cobra
