@@ -186,8 +186,8 @@ int verificaColisao(EstadoJogo *jogo) { //////////////////////
 // Função para encerrar o jogo e mostrar a pontuação final
 void endGame(EstadoJogo *jogo){
     screenClear();
-    printf("Game Over!\n");
-    printf("Pontuacao final: %d\n", jogo->pontuacao);
+    printf("GAME OVER!\n");
+    printf("PONTUACAO FINAL: %d\n", jogo->pontuacao);
     screenUpdate();
 }
 
@@ -237,13 +237,14 @@ int main() {
         jogo.fimDeJogo = verificaColisao(&jogo);
     }
 
-    endGame(&jogo);
-
     keyboardDestroy();
     screenDestroy();
     timerDestroy();
-    dadosjogador(&jogo);
-    printf("Pontuacao salva com sucesso no arquivo pontuacoes.txt\n\n\n");
 
+    endGame(&jogo);
+    printf("\n");
+    dadosjogador(&jogo);
+    printf("\nPontuacao salva em pontuacoes.txt\n\n\n\n");
+    
     return 0;
 }
