@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "conio.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/mnt/c/Users/GENES/Documents/GitHub/Projeto-main"
 }

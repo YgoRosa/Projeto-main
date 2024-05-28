@@ -73,15 +73,18 @@ void screenGotoxy(int x, int y)
     printf("%s[f%s[%dB%s[%dC", ESC, ESC, y, ESC, x);
 }
 
-void screenSetColor( screenColor fg, screenColor bg)
-{
+void screenSetColor(screenColor fg, screenColor bg) {
     char atr[] = "[0;";
 
-    if ( fg > LIGHTGRAY )
-    {
+    // Converte fg para int e realiza a operação.
+    int temp_fg = (int)fg;  // Conversão explícita de fg para int.
+
+    if (temp_fg > LIGHTGRAY) {
         atr[1] = '1';
-		fg -= 8;
+        temp_fg = temp_fg - 8;  // Subtrai 8 de forma explícita em uma variável int.
     }
 
-    printf("%s%s%d;%dm", ESC, atr, fg+30, bg+40);
+    fg = (screenColor)temp_fg;  // Converte de volta para screenColor se necessário.
+
+    printf("%s%s%d;%dm", ESC, atr, fg + 30, bg + 40);
 }
